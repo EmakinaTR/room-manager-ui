@@ -24,7 +24,7 @@ class Status extends React.Component {
 			unit = (showHrs) ? 'hr' : 'min',
 			suffix = (total > 1) ? 's' : '';
 
-		return (isFinite(remainder))
+		return (isFinite(remainder) && remainder > 0)
 			? [total, unit + suffix].join(' ')
 			: null;
 	}
@@ -55,27 +55,15 @@ class Status extends React.Component {
 			<article>
 				<h1 className="current">
 					{ (current)
-						? current.title || 'Occupied'
-						: (room) ?  titleize(room.title) : 'Available' }
+						? current.title || 'Meeting'
+						: (room) ? titleize(room.title) : 'Available' }
 				</h1>
-				{ remainder && <time className="remainder">
+				{ (remainder) && <time className="remainder">
 					{ remainder }
 				</time> }
 			</article>
 		);
 	}
-
-	// renderUsers () {
-	// 	return (
-	// 		<article>
-	// 			<ul className="users">
-	// 				{ users.map((user, idx) => {
-    //             		return <li key={idx}>{ user.name }</li>;
-    //             	})}
-	// 			</ul>
-	// 		</article>
-	// 	);
-	// }
 
 	renderLoading () {
 		return (
@@ -100,7 +88,7 @@ class Status extends React.Component {
 			return this.renderError(error);
 		} else if (this.props.store.isLoading) {
 			return this.renderLoading();
-		} else if (this.props.store.isServing) {
+		} else if (this.props.store.isBooking) {
 			return this.renderOptions();
 		} else {
 			return this.renderCurrent();

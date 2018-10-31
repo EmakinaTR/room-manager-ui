@@ -1,35 +1,70 @@
 @import '../../assets/mixins.scss';
-@import '../../assets/colours.scss';
-@import '../../assets/fonts.scss';
+@import '../../assets/theme.scss';
 
-html, body {
-	margin: 0;
-	background-color: #333;
-	user-select: none;
-	font: 300 16px/22px Helvetica, Arial, Sans-serif;
-}
+:root {
+	--bg-color: white;
+	--current-color: black;
+	--text-color: #{c(gray)};
+	--tick-color: #{c(gray-lt)};
+	--hour-color: #{c(gray-dk)};
+	--accent-color: #{c(blue)};
+	--icon-filter: none;
 
-main {
-	width: 1280px;
-	height: 800px;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	background-color: white;
-	transform: translate(-50%, -50%);
-	@include transition(0s, 0.5s, background-color);
-
-	&.occupied {
-		background-color: black;
-		--image-filter: invert(1);
-		--current-color: white;
-		--text-color: #{c(gray)};
-		--hand-color: #{c(white-ish)};
-		--tick-color: #{c(gray-dk)};
+	@font-face {
+		font-family: 'Museo Sans';
+		src: url('../../assets/fonts/museo300.woff2') format('woff2'),
+		url('../../assets/fonts/museo300.woff') format('woff');
+		font-weight: 300;
+		font-style: normal;
 	}
 
-	@keyframes delay-in {
-		0% { opacity: 0; }
-		100% { opacity: 1; }
+	@font-face {
+		font-family: 'Museo Sans';
+		src: url('../../assets/fonts/museo500.woff2') format('woff2'),
+		url('../../assets/fonts/museo500.woff') format('woff');
+		font-weight: 500;
+		font-style: normal;
+	}
+
+	@keyframes fade-in {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	@keyframes blink {
+		50% { opacity: 0; }
+	}
+
+	@keyframes rotate {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
+	body {
+		margin: 0;
+		user-select: none;
+		background-color: #333;
+		@include font('Museo Sans', 300, 38px, 1);
+
+		main {
+			width: 1280px;
+			height: 800px;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			overflow: hidden;
+			background-color: var(--bg-color);
+			transform: translate(-50%, -50%);
+			@include transition(0s, 0.5s, background-color);
+
+			&.busy {
+				--bg-color: black;
+				--current-color: white;
+				--text-color: #{c(gray-mid)};
+				--tick-color: #{c(gray-dk)};
+				--hour-color: #{c(gray-mid)};
+				--icon-filter: invert(1);
+			}
+		}
 	}
 }
